@@ -3,7 +3,6 @@ package d0x10
 import scala.io.Source
 import java.io.File
 import java.io.PrintWriter
-import collection.mutable.ArrayBuffer
 
 object Main {
   def main(args: Array[String]): Unit = {

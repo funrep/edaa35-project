@@ -1,22 +1,29 @@
 package d0x10
 
-object Fibonacci extends {
-  def imperative(input: Int): Int = {
-    if (input <= 2)
-      return 1
+import scala.annotation.tailrec
 
-    var result = 0
-    var prev1 = 0
-    var prev2 = 1
+object Fibonacci extends {
+  def imperative(input: Int): BigInt = {
+    var a = 0
+    var b = 1
     var i = 0
+   
     while (i < input) {
-      val tmp = result
-      result += prev1 + prev2
-      prev1 = prev2
-      prev2 = tmp
-      i += 1
-    }
-    result
+      val tmp = a + b
+      a = b
+      b = tmp
+      i = i + 1
+    } 
+    a
   }
-  def functional(input: Int) = ???
+
+  def functional(input: Int) = {
+    @tailrec
+    def iter(n: Int, a: BigInt, b: BigInt): BigInt = n match {
+      case 0 => a
+      case 1 => b
+      case _ => iter(n - 1, b, a + b)
+    }
+    iter(input, 0, 1)
+  }
 }

@@ -29,9 +29,9 @@ object Quicksort {
     else {
         val pivot = xs(xs.length / 2)
         Array.concat(
-            sortFunctional(xs filter (pivot >)), 
+            functional(xs filter (pivot >)), 
             (xs filter (pivot ==)), 
-            sortFunctional(xs filter (pivot <)))
+            functional(xs filter (pivot <)))
     }
 }
 }

@@ -27,37 +27,59 @@ object Main {
         case "primes" =>
           val input = inFileOrInput.toInt
 
-          val impTime = execTime(() => Primes.imperative(input))
+          var start = System.nanoTime
+          Primes.imperative(input)
+          var end = System.nanoTime
+          val impTime = end - start
           impOut.println(i + ", " + impTime)
 
-          val funTime = execTime(() => Primes.functional(input))
+          start = System.nanoTime
+          Primes.functional(input)
+          end = System.nanoTime
+          val funTime = end - start
           funOut.println(i + ", " + funTime)
 
         case "fibonacci" =>
           val input = inFileOrInput.toInt
 
-          val impTime = execTime(() => Fibonacci.imperative(input))
+          var start = System.nanoTime
+          Fibonacci.imperative(input)
+          var end = System.nanoTime
+          val impTime = end - start
           impOut.println(i + ", " + impTime)
 
-          val funTime = execTime(() => Fibonacci.functional(input))
-          funOut.println(i + ", " + funTime) 
+          start = System.nanoTime
+          Fibonacci.functional(input)
+          end = System.nanoTime
+          val funTime = end - start
+  
+          funOut.println(i + ", " + funTime)
 
         case "quicksort" =>
-          val impTime = execTime(() => Quicksort.imperative(input.toArray))
+          val arr = new Array[Int](input.length)
+          for (i <- 0 until input.length) {
+            arr(i) = input(i)
+          }
+
+          var start = System.nanoTime
+          Quicksort.imperative(arr)
+          var end = System.nanoTime
+          val impTime = end - start
           impOut.println(i + ", " + impTime)
 
-          val funTime = execTime(() => Quicksort.functional(input.toArray))
+          val arr1 = new Array[Int](input.length)
+          for (i <- 0 until input.length) {
+            arr1(i) = input(i)
+          }
+
+          start = System.nanoTime
+          Quicksort.functional(arr1)
+          end = System.nanoTime
+          val funTime = end -  start
           funOut.println(i + ", " + funTime)
       }
     }
     impOut.close()
     funOut.close()
-  }
-
-  def execTime(proc: => Unit): Long = {
-    val start = System.nanoTime
-    proc
-    val end = System.nanoTime
-    end - start
   }
 }

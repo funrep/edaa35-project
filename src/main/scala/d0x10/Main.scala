@@ -43,10 +43,10 @@ object Main {
           funOut.println(i + ", " + funTime) 
 
         case "quicksort" =>
-          val impTime = execTime(() => Quicksort.imperative(input))
+          val impTime = execTime(() => Quicksort.imperative(input.toArray))
           impOut.println(i + ", " + impTime)
 
-          val funTime = execTime(() => Quicksort.functional(input))
+          val funTime = execTime(() => Quicksort.functional(input.toArray))
           funOut.println(i + ", " + funTime)
       }
     }

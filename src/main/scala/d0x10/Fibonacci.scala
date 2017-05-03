@@ -17,7 +17,7 @@ object Fibonacci extends {
     a
   }
 
-  def functional(input: Int) = {
+  def functional(input: Int): BigInt = {
     @tailrec
     def iter(n: Int, a: BigInt, b: BigInt): BigInt = n match {
       case 0 => a

@@ -21,7 +21,7 @@ object Primes {
     inner(Vector.empty, 2);
   }
 
-  def procedural(max: Int): ArrayBuffer[Int] = {
+  def imperative(max: Int): ArrayBuffer[Int] = {
     val primes: ArrayBuffer[Int] = ArrayBuffer.empty
     var i = 2;
     var n = 0;

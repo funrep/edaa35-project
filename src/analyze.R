@@ -5,7 +5,7 @@ source("R_resources.R", local = TRUE)
 
 compile <- function() {
 
-    system("scalac Main.scala -classpath Primes.scala Fibonacci.scala Quicksort.scala")
+    system("scalac Main.scala")
 }
 
 toPdf <- function(data, outfile) {

@@ -1,7 +1,11 @@
-source("EDAA35/R_resources.R")
+this.dir <- dirname(parent.frame(2)$ofile)
+setwd(this.dir)
+
+source("R_resources.R", local = TRUE)
 
 compile <- function() {
-    system("scalac ../Quicksort.scala ../Fibonacci.scala ../Primes.scala ../Main.scala")
+
+    system("scalac Main.scala -classpath Primes.scala Fibonacci.scala Quicksort.scala")
 }
 
 toPdf <- function(data, outfile) {
@@ -10,31 +14,30 @@ toPdf <- function(data, outfile) {
     dev.off()
 }
 
-N <- 600
 
-runImp <- function(algo, input, outfile, start=100) {
+runImp <- function(algo, input, outfile, start, N) {
     system(paste("scala", "Main", algo, input, outfile, N))
     impData <- read.csv(paste0(outfile, "-imp.csv"))
     impData[start:nrow(impData),]
     impData
 }
 
-runFun <- function(algo, input, outfile, start=100) {
+runFun <- function(algo, input, outfile, start, N) {
     system(paste("scala", "Main", algo, input, outfile, N))
     funData <- read.csv(paste0(outfile, "-fun.csv"))
     funData[start:nrow(funData),]
     funData
 }
 
-analyze <- function(algo, input, paradigm) {
+analyze <- function(algo, input, paradigm, s, n) {
     data <- c()
     times <- 10
     for (i in 1:times) {
         if (paradigm == "fun") {
-            result <- runFun(algo, input, algo)
+            result <- runFun(algo, input, algo, s, n)
             data <- c(data, mean(result[,2]))
         } else {
-            result <- runImp(algo, input, algo)
+            result <- runImp(algo, input, algo, s, n)
             data <- c(data, mean(result[,2]))
         }
     }
@@ -45,26 +48,22 @@ analyze <- function(algo, input, paradigm) {
 
 
 main <- function() {
-    data_quick_imp <- runImp("quicksort", "../data/random.txt", "quick", start=0)
-    data_quick_fun <- runFun("quicksort", "../data/random.txt", "quick", start=0)
-    toPdf(data_quick_imp, "../results/invsägning-imp.pdf")
-    toPdf(data_quick_fun, "../results/insvägning-fun.pdf")
 
     print("fibonacci")
-    fib_imp <- analyze("fibonacci", "10000", "imp")
+    fib_imp <- analyze("fibonacci", "10000", "imp", 100, 600)
     print(fib_imp[1:3])
-    fib_fun <- analyze("fibonacci", "10000", "fun")
-    print(fib_imp[1:3])
+    fib_fun <- analyze("fibonacci", "10000", "fun", 100, 600)
+    print(fib_fun[1:3])
 
     print("primes")
-    primes_imp <- analyze("primes", "1000", "imp")
+    primes_imp <- analyze("primes", "1000", "imp", 100, 600)
     print(primes_imp[1:3])
-    primes_fun <- analyze("primes", "1000", "fun")
+    primes_fun <- analyze("primes", "1000", "fun", 150, 600)
     print(primes_fun[1:3])
 
     print("quicksort")
-    quick_imp <- analyze("quicksort", "../data/random.txt", "imp")
+    quick_imp <- analyze("quicksort", "../data/random.txt", "imp", 150, 600)
     print(quick_imp[1:3])
-    quick_fun <- analyze("quicksort", "../data/random.txt", "fun")
+    quick_fun <- analyze("quicksort", "../data/random.txt", "fun", 100, 600)
     print(quick_fun[1:3])
 }

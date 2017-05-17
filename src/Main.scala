@@ -74,9 +74,10 @@ import scala.annotation.tailrec
            for (i <- 0 until input.length) {
              arr1(i) = input(i)
            }
+           val list = arr1.toList
  
            start = System.nanoTime
-           Quicksort.functional(arr1)
+           Quicksort.functional(list)
            end = System.nanoTime
            val funTime = end -  start
            funOut.println(i + ", " + funTime)
@@ -136,17 +137,16 @@ object Quicksort {
     }
 
     sort(0, xs.length - 1)
-}
-  def functional(xs: Array[Int]): Array[Int] = {
-    if (xs.length <= 1) xs
-    else {
-        val pivot = xs(xs.length / 2)
-        Array.concat(
-            functional(xs filter (pivot >)), 
-            (xs filter (pivot ==)), 
-            functional(xs filter (pivot <)))
+  }
+  def functional(ls: List[Int]): List[Int] = {
+    ls match {
+      case Nil => Nil
+      case pivot :: tail => {
+        val (less, greater) = tail.partition(_ < pivot)
+        functional(less) ::: pivot :: functional(greater)
+      }
     }
-}
+  }
 }
 
 object Primes {
